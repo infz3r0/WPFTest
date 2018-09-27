@@ -50,6 +50,7 @@ namespace WPFTest
             {
                 db.cities.Remove(o);
                 db.SaveChanges();
+                MessageBox.Show("Deleted");
             }
             catch (Exception ex)
             {
