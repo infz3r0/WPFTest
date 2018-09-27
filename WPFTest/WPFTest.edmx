@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WPFTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="id_city" />
+          </Key>
+          <Property Name="id_city" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="id_person" />
+          </Key>
+          <Property Name="id_person" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="person_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_city" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_city_id_city">
+          <End Role="city" Type="Self.city" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id_city" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="id_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WPFTestModelStoreContainer">
+          <EntitySet Name="city" EntityType="Self.city" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="person" EntityType="Self.person" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_city_id_city" Association="Self.FK_city_id_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="person" EntitySet="person" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WPFTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="id_city" />
+          </Key>
+          <Property Name="id_city" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="people" Relationship="Self.FK_city_id_city" FromRole="city" ToRole="person" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="id_person" />
+          </Key>
+          <Property Name="id_person" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="person_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_city" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="city" Relationship="Self.FK_city_id_city" FromRole="person" ToRole="city" />
+        </EntityType>
+        <Association Name="FK_city_id_city">
+          <End Role="city" Type="Self.city" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id_city" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="id_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WPFTestEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="people" EntityType="Self.person" />
+          <AssociationSet Name="FK_city_id_city" Association="Self.FK_city_id_city">
+            <End Role="city" EntitySet="cities" />
+            <End Role="person" EntitySet="people" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WPFTestModelStoreContainer" CdmEntityContainer="WPFTestEntities1">
+          <EntitySetMapping Name="cities">
+            <EntityTypeMapping TypeName="WPFTestModel.city">
+              <MappingFragment StoreEntitySet="city">
+                <ScalarProperty Name="id_city" ColumnName="id_city" />
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="people">
+            <EntityTypeMapping TypeName="WPFTestModel.person">
+              <MappingFragment StoreEntitySet="person">
+                <ScalarProperty Name="id_person" ColumnName="id_person" />
+                <ScalarProperty Name="person_name" ColumnName="person_name" />
+                <ScalarProperty Name="id_city" ColumnName="id_city" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

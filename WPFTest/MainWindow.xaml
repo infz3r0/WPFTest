@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cityViewSource" d:DesignSource="{d:DesignInstance {x:Type local:city}, CreateList=True}"/>
+        <CollectionViewSource x:Key="personViewSource" d:DesignSource="{d:DesignInstance {x:Type local:person}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource cityViewSource}">
+        <DataGrid x:Name="cityDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="10,91,441,10" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="id_cityColumn" Binding="{Binding id_city}" Header="id city" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="city_nameColumn" Binding="{Binding city_name}" Header="city name" Width="SizeToHeader"/>                
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="personDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource personViewSource}}" Margin="420,91,10,10" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>                
+                <DataGridTextColumn x:Name="id_personColumn" Binding="{Binding id_person}" Header="id person" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="person_nameColumn" Binding="{Binding person_name}" Header="person name" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="id_cityColumn1" Binding="{Binding id_city}" Header="id city" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Delete selected city" Name="btnDeleteCity" HorizontalAlignment="Left" Margin="73,33,0,0" VerticalAlignment="Top" Width="134" Height="42" Click="btnDeleteCity_Click"/>
+
     </Grid>
 </Window>
